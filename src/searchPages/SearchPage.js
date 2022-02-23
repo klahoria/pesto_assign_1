@@ -27,7 +27,7 @@ function SearchPage() {
     <div className="searchPage">
       <div className="searchPage__header">
         <Link to="/">
-          <img className="searchPage__logo" src="/engine_view.png" alt="" />
+          <img className="searchPage__logo" src={require("../engine_view.png")} alt="" />
         </Link>
 
         <div className="searchPage__headerBody">

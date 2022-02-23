@@ -23,7 +23,7 @@ function Home() {
         </div>
 
         <div className="home__body">
-          <img title="image-google" src="/engine_view.png" />
+          <img title="image-google" src={require("../engine_view.png")} />
 
           <div className="home__inputContainer">
             <Search />
