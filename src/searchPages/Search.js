@@ -6,28 +6,39 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 import reducer from "../reducer";
-
 import { SET_SEARCH_TERM } from "../actions/type";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import useGoogleSearch from "./useGoogleSearch";
+import axios from "axios";
 function Search({ hideButtons = false }) {
-  const [data, dispatch] = useStateValue();
+  const [data1, dispatch] = useStateValue();
+  const [data2, setData2] = useState();
+  const [showData2, setshowData2] = useState(false);
+
+  const getData = () => {
+    axios.get("https://jsonplaceholder.typicode.com/todos").then((res) => {
+      setData2(res.data);
+    });
+  };
 
   useEffect(() => {
-    console.log(data);
-    if (data.term == null) {
+    console.log(data1);
+    getData();
+
+    if (data1.term == null) {
       setInput("");
     } else {
-      setInput(data.term);
+      setInput(data1.term);
     }
   }, []);
 
   const [input, setInput] = useState("");
+  const [Afill, setAfill] = useState([]);
   const history = useHistory();
   const location = useLocation();
 
   const search = (e) => {
     e.preventDefault();
-    console.log("enter pressed", input);
     if (input == "") {
       return;
     }
@@ -39,6 +50,18 @@ function Search({ hideButtons = false }) {
       history.push("/search");
     }
   };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    getData();
+    setInput(e.target.value);
+    // console.log(data);
+    // setAfill(data.items);
+    // let link = ` https://www.googleapis.com/customsearch/v1?key=AIzaSyBAeR2mckJgvnCwvPS56KCkqVilp98kumM&cx=d112155f7596fd999:omuauf_lfve&q=${e.target.value}&callback=hndlr`;
+    // axios.get(link).then((response) => {
+    //   console.log(response);
+    // });
+  };
   return (
     <form
       className="search"
@@ -48,10 +71,70 @@ function Search({ hideButtons = false }) {
         search(e);
       }}
     >
-      <div className="search__input">
+      <div className="search__input" style={{ position: "relative" }}>
         <SearchIcon className="search__inputIcon" />
-        <input onChange={(e) => setInput(e.target.value)} value={input} />
+        <input
+          onChange={(e) => handleChange(e)}
+          value={input}
+          onFocus={() => {
+            getData();
+            setshowData2(!showData2);
+          }}
+          onBlur={() => {
+            setTimeout(() => {
+              setshowData2(!showData2);
+            }, 200);
+          }}
+        />
         <MicIcon />
+        <div class="autofill_blank">
+          {data2 &&
+            showData2 &&
+            input !== "" &&
+            data2
+              ?.filter((item) => {
+                return item.title.indexOf(input) !== -1;
+              })
+              .map((item, index) => {
+                return (
+                  index < 6 && (
+                    <div
+                      onClick={() => {
+                        setInput(item.title);
+                      }}
+                      style={{
+                        display: "flex",
+                        // border:'1px solid',
+                        height: "max-content",
+                        backgound: "white",
+                        boxShadow: "1px 2px  10px 0px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <SearchIcon
+                        className="a_fill_item search__inputIcon"
+                        onClick={() => {
+                          setInput(item.title);
+                        }}
+                      />
+                      <span
+                        class="a_fill_item"
+                        onClick={() => {
+                          setInput(item.title);
+                        }}
+                      >
+                        <span style={{ color: "#4285f4" }}>
+                          {item.title.split(item.title.indexOf(input))[0]}
+                        </span>
+                        <span>
+                          {item.title.split(item.title.indexOf(input))[1]}
+                        </span>
+                      </span>
+                    </div>
+                  )
+                );
+              })}
+        </div>
       </div>
       <button type="subimt" style={{ display: "none" }}></button>
       {!hideButtons ? (
