@@ -12,7 +12,7 @@ export default function App() {
         <Routes>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
           <Route path="/home" element={"Hello"} />
           <Route path="/users" element={"users"} />
           <Route path="/reference" element={"reference"} />
