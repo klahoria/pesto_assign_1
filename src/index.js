@@ -14,9 +14,9 @@ ReactDOM.render(
   <BrowserRouter>
     <AuthGaurd initialState={initialState} reducers={reducer}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Header />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <App />
         </Grid>
