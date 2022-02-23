@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 import "./SearchPage.css";
@@ -11,16 +11,10 @@ import ImageIcon from "@material-ui/icons/Image";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import RoomIcon from "@material-ui/icons/Room";
 import MoreVert from "@material-ui/icons/MoreVert";
-import {
-  useHistory,
-  useLocation,
-} from "react-router-dom/cjs/react-router-dom.min";
 
 function SearchPage() {
-  const [{ term }, dispatch] = useStateValue();
+  const [{ term }] = useStateValue();
   const { data } = useGoogleSearch(term);
-  const history = useHistory();
-  const location = useLocation();
 
   // useEffect(() => {
   //   if (term == null || term == "") {

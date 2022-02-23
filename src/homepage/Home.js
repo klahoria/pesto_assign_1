@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import AppsIcon from "@material-ui/icons/Apps";
-import MicIcon from "@material-ui/icons/Mic";
 import { Avatar } from "@material-ui/core";
 import Search from "../searchPages/Search";
 function Home() {

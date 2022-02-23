@@ -5,10 +5,7 @@ import "./Search.css";
 import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
-import reducer from "../reducer";
-import { SET_SEARCH_TERM } from "../actions/type";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import useGoogleSearch from "./useGoogleSearch";
 import axios from "axios";
 function Search({ hideButtons = false }) {
   const [data1, dispatch] = useStateValue();
@@ -33,7 +30,6 @@ function Search({ hideButtons = false }) {
   }, []);
 
   const [input, setInput] = useState("");
-  const [Afill, setAfill] = useState([]);
   const history = useHistory();
   const location = useLocation();
 
